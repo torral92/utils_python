@@ -24,3 +24,40 @@ def similarity_percentage(s1, s2):
     max_len = max(len_s1, len_s2)
     similarity = 1 - (distance / max_len)
     return similarity * 100
+
+
+# COmparacion de nombres ( una variable en comun)
+
+
+# % de similitud a filtrar
+similarity_threshold = 55
+
+filtered_rows = []
+
+for index, row in df.iterrows():
+    sim_percentage = similarity_percentage(row["txt_nombre"], row["name"])
+    if sim_percentage >= similarity_threshold:
+        row["similitud_porcentaje"] = sim_percentage  # Agregar nueva columna
+        filtered_rows.append(row)
+
+filtered_df = pd.DataFrame(filtered_rows)
+
+# comparacion de nombres y direcion en conjunto ( dos variables en comun)
+
+# % de similitud a filtrar
+similarity_name_threshold = 55
+similarity_address_threshold = 40
+
+filtered_rows = []
+
+for index, row in df.iterrows():
+    sim_name = similarity_percentage(row["txt_nombre"], row["name"])
+    sim_address = similarity_percentage(row["txt_direccion"], row["name_of_street"])
+    if sim_name >= similarity_name_threshold and sim_address >= similarity_address_threshold:
+        row["similitud_nombre"] = sim_name
+        row["similitud_direccion"] = sim_address
+        filtered_rows.append(row)
+
+filtered_df = pd.DataFrame(filtered_rows)
+
+
